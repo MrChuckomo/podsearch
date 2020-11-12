@@ -24,6 +24,7 @@ class PodSearch():
     def search(term):
 
         # url = "https://itunes.apple.com/search?term=freakshow&media=podcast"
+        # url = f'{SEARCH_URL}term={term}&media=podcast&country=de'
         url = f'{SEARCH_URL}term={term}&media=podcast'
 
         payload = {}
