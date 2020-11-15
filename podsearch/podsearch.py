@@ -10,6 +10,8 @@ Creation Date: 12-Nov-2020
 import json
 import requests
 
+from podsearch import Media
+from podsearch import Entity
 from podsearch import SEARCH_URL
 
 
@@ -17,14 +19,23 @@ from podsearch import SEARCH_URL
 
 class PodSearch():
 
-    def __init__(self, term):
+    def __init__(self, term: str, media: Media=None, entity: Entity=None):
         self._term_ = term
+        self._media_ = media
+        self._entity_ = entity
+
+    @classmethod
+    def podcast(cls, term: str):
+        return cls(term, media=Media.PODCAST, entity=None)
+
+    @classmethod
+    def podcast_author(cls, term: str):
+        return cls(term, media=Media.PODCAST, entity=Entity.Podcast.PODCASTAUTHOR)
 
     def search(self):
+        url = self._build_uri_()
 
-        # url = "https://itunes.apple.com/search?term=freakshow&media=podcast"
-        # url = f'{SEARCH_URL}term={self._term_}&media=podcast&country=de'
-        url = f'{SEARCH_URL}term={self._term_}&media=podcast'
+        print(url)
 
         payload = {}
         headers = {
@@ -32,12 +43,10 @@ class PodSearch():
         }
 
         response = requests.request("GET", url, headers=headers, data=payload)
-
         data = json.loads(response.text)
 
         # NOTE: Output
 
-        # print(response.text.encode('utf8'))
         print(f'\nPodcasts ({data["resultCount"]}): ')
         for idx, result in enumerate(data['results']):
             print(
@@ -54,29 +63,20 @@ class PodSearch():
                 self._get_value_(result, 'primaryGenreName')
             )
 
-    def author(self):
-
-        # url = "https://itunes.apple.com/search?term=freakshow&media=podcast"
-        url = f'{SEARCH_URL}term={self._term_}&media=podcast&entity=podcastAuthor'
-
-        payload = {}
-        headers = {
-            'Cookie': 'geo=DE'
-        }
-
-        response = requests.request("GET", url, headers=headers, data=payload)
-
-        data = json.loads(response.text)
-
-        # NOTE: Output
-
-        print(f'\nArtists ({data["resultCount"]}): ')
-        for idx, result in enumerate(data['results']):
-            print(idx + 1, '- 🧑‍🎨', result['artistName'])
-
-
     # ---------------------------------------------------------------------------------------------------------------------
     # NOTE: Private
+
+    def _build_uri_(self):
+        uri = f'{SEARCH_URL}term={self._term_}'
+
+        if self._media_:
+            uri += f'&media={self._media_.value}'
+
+        if self._entity_:
+            uri += f'&entity={self._entity_.value}'
+
+        return uri
+
 
     @staticmethod
     def _get_value_(data, key):
