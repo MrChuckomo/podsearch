@@ -17,15 +17,14 @@ from podsearch import SEARCH_URL
 
 class PodSearch():
 
-    def __init__(self):
-        pass
+    def __init__(self, term):
+        self._term_ = term
 
-    @staticmethod
-    def search(term):
+    def search(self):
 
         # url = "https://itunes.apple.com/search?term=freakshow&media=podcast"
-        # url = f'{SEARCH_URL}term={term}&media=podcast&country=de'
-        url = f'{SEARCH_URL}term={term}&media=podcast'
+        # url = f'{SEARCH_URL}term={self._term_}&media=podcast&country=de'
+        url = f'{SEARCH_URL}term={self._term_}&media=podcast'
 
         payload = {}
         headers = {
@@ -44,23 +43,21 @@ class PodSearch():
             print(
                 idx + 1,
                 '- 🧑‍🎨',
-                result['artistName'],
+                self._get_value_(result, 'artistName'),
                 '- 📚',
-                result['collectionName'],
+                self._get_value_(result, 'collectionName'),
                 '- 🔞',
-                result['contentAdvisoryRating'],
+                self._get_value_(result, 'contentAdvisoryRating'),
                 '- 🌍',
-                result['country'],
+                self._get_value_(result, 'country'),
                 '- 🎦',
-                result['primaryGenreName']
+                self._get_value_(result, 'primaryGenreName')
             )
 
-
-    @staticmethod
-    def author(term):
+    def author(self):
 
         # url = "https://itunes.apple.com/search?term=freakshow&media=podcast"
-        url = f'{SEARCH_URL}term={term}&media=podcast&entity=podcastAuthor'
+        url = f'{SEARCH_URL}term={self._term_}&media=podcast&entity=podcastAuthor'
 
         payload = {}
         headers = {
@@ -76,3 +73,14 @@ class PodSearch():
         print(f'\nArtists ({data["resultCount"]}): ')
         for idx, result in enumerate(data['results']):
             print(idx + 1, '- 🧑‍🎨', result['artistName'])
+
+
+    # ---------------------------------------------------------------------------------------------------------------------
+    # NOTE: Private
+
+    @staticmethod
+    def _get_value_(data, key):
+        try:
+            return data[key]
+        except KeyError:
+            return None
