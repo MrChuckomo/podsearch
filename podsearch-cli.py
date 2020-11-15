@@ -12,6 +12,6 @@ from podsearch.podsearch import PodSearch
 # ---------------------------------------------------------------------------------------------------------------------
 
 if __name__ == "__main__":
-    PodSearch.author('Tim')
-    PodSearch.search('freakshow')
+    PodSearch('Tim').author()
+    PodSearch('tim').search()
 
