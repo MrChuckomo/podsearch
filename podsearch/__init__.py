@@ -29,7 +29,6 @@ class Media(Enum):
 
 
 class Entity():
-
     class Movie(Enum):
         MOVIEARTIST = 'movieArtist'
         MOVIE = 'movie'
@@ -38,14 +37,45 @@ class Entity():
         PODCASTAUTHOR = 'podcastAuthor'
         PODCAST = 'podcast'
 
-# movie	movieArtist, movie
-# podcast	podcastAuthor, podcast
-# music	musicArtist, musicTrack, album, musicVideo, mix, song
-# Please note that “musicTrack” can include both songs and music videos in the results
-# musicVideo	musicArtist, musicVideo
-# audiobook	audiobookAuthor, audiobook
-# shortFilm	shortFilmArtist, shortFilm
-# tvShow	tvEpisode, tvSeason
-# software	software, iPadSoftware, macSoftware
-# ebook	ebook
-# all	movie, album, allArtist, podcast, musicVideo, mix, audiobook, tvSeason, allTrack
+    class Music(Enum):
+        MUSICARTIST = 'musicArtist'
+        MUSICTRACK = 'musicTrack'
+        ALBUM = 'album'
+        MUSICVIDEO = 'musicVideo'
+        MIX = 'mix'
+        SONG = 'song'
+
+    class MusicVideo(Enum):
+        MUSICARTIST = 'musicArtist'
+        MUSICVIDEO = 'musicVideo'
+
+    class Audiobook(Enum):
+        AUDIOBOOKAUTHOR = 'audiobookAuthor'
+        AUDIOBOOK = 'audiobook'
+
+    class ShortFilm(Enum):
+        SHORTFILMARTIST = 'shortFilmArtist'
+        SHORTFILM = 'shortFilm'
+
+    class TvShow(Enum):
+        TVEPISODE = 'tvEpisode'
+        TVSEASON = 'tvSeason'
+
+    class Software(Enum):
+        SOFTWARE = 'software'
+        IPADSOFTWARE = 'iPadSoftware'
+        MACSOFTWARE = 'macSoftware'
+
+    class Ebook(Enum):
+        EBOOK = 'ebook'
+
+    class All(Enum):
+        MOVIE = 'movie'
+        ALBUM = 'album'
+        ALLARTIST = 'allArtist'
+        PODCAST = 'podcast'
+        MUSICVIDEO = 'musicVideo'
+        MIX = 'mix'
+        AUDIOBOOK = 'audiobook'
+        TVSEASON = 'tvSeason'
+        ALLTRACK = 'allTrack'
