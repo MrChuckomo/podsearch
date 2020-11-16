@@ -46,7 +46,7 @@ class PodSearch():
         data = json.loads(response.text)
 
         # NOTE: Output
-
+        print(data.keys())
         print(f'\nPodcasts ({data["resultCount"]}): ')
         for idx, result in enumerate(data['results']):
             print(
@@ -62,6 +62,9 @@ class PodSearch():
                 '- 🎦',
                 self._get_value_(result, 'primaryGenreName')
             )
+
+        return data
+
 
     # ---------------------------------------------------------------------------------------------------------------------
     # NOTE: Private
