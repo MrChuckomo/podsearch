@@ -1,0 +1,10 @@
+{
+    "query": [
+        "Tim",
+        "tim",
+        "Freakshow",
+        "freakshow",
+        "freak-show"
+    ],
+    "result_keys": ["resultCount", "results"]
+}

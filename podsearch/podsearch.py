@@ -46,22 +46,26 @@ class PodSearch():
         data = json.loads(response.text)
 
         # NOTE: Output
+        print(data.keys())
+        print(f'\nPodcasts ({self._get_value_(data, "resultCount")}): ')
+        if self._get_value_(data, 'results'):
+            for idx, result in enumerate(self._get_value_(data, 'results')):
+                print(
+                    idx + 1,
+                    '- 🧑‍🎨',
+                    self._get_value_(result, 'artistName'),
+                    '- 📚',
+                    self._get_value_(result, 'collectionName'),
+                    '- 🔞',
+                    self._get_value_(result, 'contentAdvisoryRating'),
+                    '- 🌍',
+                    self._get_value_(result, 'country'),
+                    '- 🎦',
+                    self._get_value_(result, 'primaryGenreName')
+                )
 
-        print(f'\nPodcasts ({data["resultCount"]}): ')
-        for idx, result in enumerate(data['results']):
-            print(
-                idx + 1,
-                '- 🧑‍🎨',
-                self._get_value_(result, 'artistName'),
-                '- 📚',
-                self._get_value_(result, 'collectionName'),
-                '- 🔞',
-                self._get_value_(result, 'contentAdvisoryRating'),
-                '- 🌍',
-                self._get_value_(result, 'country'),
-                '- 🎦',
-                self._get_value_(result, 'primaryGenreName')
-            )
+        return data
+
 
     # ---------------------------------------------------------------------------------------------------------------------
     # NOTE: Private
