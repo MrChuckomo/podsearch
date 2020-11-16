@@ -35,8 +35,6 @@ class PodSearch():
     def search(self):
         url = self._build_uri_()
 
-        print(url)
-
         payload = {}
         headers = {
             'Cookie': 'geo=DE'
@@ -46,7 +44,6 @@ class PodSearch():
         data = json.loads(response.text)
 
         # NOTE: Output
-        print(data.keys())
         print(f'\nPodcasts ({self._get_value_(data, "resultCount")}): ')
         if self._get_value_(data, 'results'):
             for idx, result in enumerate(self._get_value_(data, 'results')):
