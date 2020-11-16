@@ -28,18 +28,28 @@ def get_test_data(key):
 
     return data[key]
 
+RESULT_KEYS = get_test_data('result_keys')
 
 # ---------------------------------------------------------------------------------------------------------------------
 
-@pytest.mark.parametrize("query", get_test_data('query'))
+@pytest.mark.parametrize('query', get_test_data('query'))
 def test_all(query):
-    PodSearch('Tim').search()
+    data = PodSearch('Tim').search()
+    assert isinstance(data, dict)
+    assert list(data.keys()) == RESULT_KEYS
 
-@pytest.mark.parametrize("query", get_test_data('query'))
+@pytest.mark.parametrize('query', get_test_data('query'))
 def test_podcast(query):
-    PodSearch('Tim', media=Media.PODCAST).search()
-    PodSearch.podcast('Freakshow').search()
+    data = PodSearch('Tim', media=Media.PODCAST).search()
+    assert isinstance(data, dict)
+    assert list(data.keys()) == RESULT_KEYS
 
-@pytest.mark.parametrize("query", get_test_data('query'))
+    data = PodSearch.podcast('Freakshow').search()
+    assert isinstance(data, dict)
+    assert list(data.keys()) == RESULT_KEYS
+
+@pytest.mark.parametrize('query', get_test_data('query'))
 def test_podcast_author(query):
-    PodSearch.podcast_author('Tim').search()
+    data = PodSearch.podcast_author('Tim').search()
+    assert isinstance(data, dict)
+    assert list(data.keys()) == RESULT_KEYS
