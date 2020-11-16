@@ -12,15 +12,25 @@ import sys
 import json
 import pytest
 
+from enum import Enum
+
 TEST_CTX = os.path.dirname(os.path.abspath(__file__))
 
 sys.path.append(f'{TEST_CTX}{os.sep}..')
 
 from podsearch import Media
+from podsearch import Entity
 from podsearch.podsearch import PodSearch
 
 
 # ---------------------------------------------------------------------------------------------------------------------
+
+class FailedMedia(Enum):
+    FOO = 'foo'
+    BAR = 'bar'
+    MOVIE = 'movies'
+    PODCAST = 'podcasts'
+    MUSIC = 'musics'
 
 def get_test_data(key):
     with open(f'{TEST_CTX}{os.sep}test_data.json', 'r') as f:
@@ -31,6 +41,18 @@ def get_test_data(key):
 RESULT_KEYS = get_test_data('result_keys')
 
 # ---------------------------------------------------------------------------------------------------------------------
+
+@pytest.mark.parametrize('media', Media)
+def test_media(media):
+    data = PodSearch('Tim', media=media).search()
+    assert isinstance(data, dict)
+    assert list(data.keys()) == RESULT_KEYS
+
+@pytest.mark.parametrize('media', FailedMedia)
+def test_failed_media(media):
+    data = PodSearch('Tim', media=media).search()
+    assert isinstance(data, dict)
+    assert data['errorMessage'] == 'Invalid value(s) for key(s): [mediaType]'
 
 @pytest.mark.parametrize('query', get_test_data('query'))
 def test_all(query):
