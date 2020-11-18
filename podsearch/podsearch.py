@@ -13,6 +13,7 @@ import requests
 from podsearch import Media
 from podsearch import Entity
 from podsearch import SEARCH_URL
+from podsearch.pretty_print import pprint
 
 
 # ---------------------------------------------------------------------------------------------------------------------
@@ -44,7 +45,7 @@ class PodSearch():
         data = json.loads(response.text)
 
         # NOTE: Output
-        print(f'\nPodcasts ({self._get_value_(data, "resultCount")}): ')
+        pprint(f'\nPodcasts ({self._get_value_(data, "resultCount")}): ')
         if self._get_value_(data, 'results'):
             for idx, result in enumerate(self._get_value_(data, 'results')):
                 print(
