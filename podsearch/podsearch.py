@@ -83,6 +83,8 @@ class PodSearch():
         if self._limit_:
             uri += f'&limit={self._limit_}'
 
+        # uri += f'&sort=kind'
+
         return uri
 
 
