@@ -13,15 +13,16 @@ import requests
 from podsearch import Media
 from podsearch import Entity
 from podsearch import SEARCH_URL
-from podsearch.pretty_print import pprint
+from podsearch.pretty_print import ColorPrint
 
 
 # ---------------------------------------------------------------------------------------------------------------------
 
 class PodSearch():
 
-    def __init__(self, term: str, media: Media=None, entity: Entity=None):
+    def __init__(self, term: str, limit: int=10, media: Media=None, entity: Entity=None):
         self._term_ = term
+        self._limit_ = limit
         self._media_ = media
         self._entity_ = entity
 
@@ -45,11 +46,13 @@ class PodSearch():
         data = json.loads(response.text)
 
         # NOTE: Output
-        pprint(f'\nPodcasts ({self._get_value_(data, "resultCount")}): ')
+        ColorPrint.cyan(f'\nPodcasts ({self._get_value_(data, "resultCount")}): ')
+
         if self._get_value_(data, 'results'):
             for idx, result in enumerate(self._get_value_(data, 'results')):
                 print(
                     idx + 1,
+                    self._get_value_(result, 'kind'),
                     '- 🧑‍🎨',
                     self._get_value_(result, 'artistName'),
                     '- 📚',
@@ -76,6 +79,9 @@ class PodSearch():
 
         if self._entity_:
             uri += f'&entity={self._entity_.value}'
+        
+        if self._limit_:
+            uri += f'&limit={self._limit_}'
 
         return uri
 

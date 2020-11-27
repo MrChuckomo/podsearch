@@ -30,8 +30,9 @@ def get_media(value):
 @click.command()
 @click.option("--term", "-t", type=click.STRING, required=True, help="Enter your search term!")
 @click.option("--media", "-m", type=click.Choice(get_media_choices()), default=Media.PODCAST.value, help="Media category", show_default=True)
-def search(term, media):
-    PodSearch(term, media=get_media(media)).search()
+@click.option("--limit", "-l", type=click.INT, default=10, help="Max. number of hits", show_default=True)
+def search(term, media, limit):
+    PodSearch(term, limit=limit, media=get_media(media)).search()
 
 if __name__ == "__main__":
     search()
