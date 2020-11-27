@@ -1,6 +1,6 @@
 """
 File         : pretty_print.py
-Description  : 
+Description  :
 
 Author       : Alexander Kettler
 Version      : v0.1.0
@@ -21,9 +21,33 @@ class AnsiColor(Enum):
     BLUE = '\033[34m'
     MAGENTA = '\033[35m'
     CYAN = '\033[36m'
+    CYANBOLD = '\033[1;36m'
     WHITE = '\033[37m'
     RESET = '\033[0m'
 
 
-def pprint(text):
-    print(f'{AnsiColor.BOLD_RED.value}{text}{AnsiColor.RESET.value}')
+def pprint(text: str, color: AnsiColor):
+    print(f'{color.value}{text}{AnsiColor.RESET.value}')
+
+
+class ColorPrint():
+
+    @staticmethod
+    def red(text: str):
+        pprint(text, AnsiColor.RED)
+
+    @staticmethod
+    def green(text: str):
+        pprint(text, AnsiColor.GREEN)
+
+    @staticmethod
+    def blue(text: str):
+        pprint(text, AnsiColor.BLUE)
+
+    @staticmethod
+    def magenta(text: str):
+        pprint(text, AnsiColor.MAGENTA)
+
+    @staticmethod
+    def cyan(text: str):
+        pprint(text, AnsiColor.CYANBOLD)
