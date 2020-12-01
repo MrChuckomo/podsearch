@@ -15,10 +15,12 @@ from enum import Enum
 class AnsiColor(Enum):
     BLACK = '\033[30m'
     RED = '\033[31m'
-    BOLD_RED = '\033[1;31m'
+    REDBOLD = '\033[1;31m'
     GREEN = '\033[32m'
+    GREENBOLD = '\033[1;32m'
     YELLOW = '\033[33m'
     BLUE = '\033[34m'
+    BLUEBOLD = '\033[1;34m'
     MAGENTA = '\033[35m'
     CYAN = '\033[36m'
     CYANBOLD = '\033[1;36m'
@@ -26,8 +28,8 @@ class AnsiColor(Enum):
     RESET = '\033[0m'
 
 
-def pprint(text: str, color: AnsiColor):
-    print(f'{color.value}{text}{AnsiColor.RESET.value}')
+def pprint(text: str, color: AnsiColor, end='\n'):
+    print(f'{color.value}{text}{AnsiColor.RESET.value}', end=end)
 
 
 class ColorPrint():
@@ -51,3 +53,20 @@ class ColorPrint():
     @staticmethod
     def cyan(text: str):
         pprint(text, AnsiColor.CYANBOLD)
+
+
+# ---------------------------------------------------------------------------------------------------------------------
+
+class Stdout():
+
+    @staticmethod
+    def heading(text, end='\n'):
+        pprint(f'\n# {text}', AnsiColor.BLUEBOLD, end=end)
+
+    @staticmethod
+    def indent(text, pre=' '*4, end='\n'):
+        print(f'{pre}{text}', end=end)
+
+    @staticmethod
+    def flag(text, pre='', end='\n', color=AnsiColor.GREENBOLD):
+        pprint(f'[{pre}{text}]', color, end=end)

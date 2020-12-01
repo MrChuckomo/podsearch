@@ -13,6 +13,8 @@ import requests
 from podsearch import Media
 from podsearch import Entity
 from podsearch import SEARCH_URL
+from podsearch.pretty_print import Stdout
+from podsearch.pretty_print import AnsiColor as c
 from podsearch.pretty_print import ColorPrint
 
 
@@ -45,31 +47,35 @@ class PodSearch():
         response = requests.request("GET", url, headers=headers, data=payload)
         data = json.loads(response.text)
 
-        # NOTE: Output
-        ColorPrint.cyan(f'\nPodcasts ({self._get_value_(data, "resultCount")}): ')
-
-        if self._get_value_(data, 'results'):
-            for idx, result in enumerate(self._get_value_(data, 'results')):
-                print(
-                    idx + 1,
-                    self._get_value_(result, 'kind'),
-                    '- 🧑‍🎨',
-                    self._get_value_(result, 'artistName'),
-                    '- 📚',
-                    self._get_value_(result, 'collectionName'),
-                    '- 🔞',
-                    self._get_value_(result, 'contentAdvisoryRating'),
-                    '- 🌍',
-                    self._get_value_(result, 'country'),
-                    '- 🎦',
-                    self._get_value_(result, 'primaryGenreName')
-                )
+        self._print_output_(data)        
 
         return data
 
 
     # ---------------------------------------------------------------------------------------------------------------------
     # NOTE: Private
+
+    def _print_output_(self, data):
+        res_count = self._get_value_(data, "resultCount")
+        ColorPrint.cyan(f'\nPodcasts ({res_count}): ')
+
+        if self._get_value_(data, 'results'):
+            for idx, result in enumerate(self._get_value_(data, 'results')):
+
+                rating = self._get_value_(result, 'contentAdvisoryRating').upper()
+
+                Stdout.heading(f'Item {idx + 1}/{res_count}:', end=' ')
+                Stdout.indent(self._get_value_(result, 'collectionName'), pre='', end=' ')
+                if rating.lower() == 'clean':
+                    Stdout.flag(rating)
+                else: 
+                    Stdout.flag(rating, color=c.REDBOLD)
+                Stdout.indent('{} - {} - {} - {}'.format(
+                    self._get_value_(result, 'kind'),
+                    self._get_value_(result, 'artistName'),
+                    self._get_value_(result, 'primaryGenreName'),
+                    self._get_value_(result, 'country'),
+                ))
 
     def _build_uri_(self):
         uri = f'{SEARCH_URL}term={self._term_}'
@@ -79,7 +85,7 @@ class PodSearch():
 
         if self._entity_:
             uri += f'&entity={self._entity_.value}'
-        
+
         if self._limit_:
             uri += f'&limit={self._limit_}'
 
