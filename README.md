@@ -39,3 +39,21 @@ Options:
                                   Media category  [default: podcast]
   --help                          Show this message and exit.
 ```
+
+
+## Example 
+
+```bash
+$ python podsearch-cli.py -t freakshow -l 3
+
+Podcasts (3):
+
+# Item 1/3: Freakshow [CLEAN]
+    podcast - Podplay - Comedy - USA
+
+# Item 2/3: Freak Show [CLEAN]
+    podcast - Metaebene Personal Media - Tim Pritlove - Technology - USA
+
+# Item 3/3: Internet Freakshow - Stories of Internet Mysteries, Trolls, Weirdos, and Freaks [EXPLICIT]
+    podcast - GNPN - Technology - USA
+```
